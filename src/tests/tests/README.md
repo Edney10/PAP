@@ -1,26 +1,28 @@
-# 📢 PAP-Alarme
+# 📢 Alarme de Presença com Arduino 🚨  
 
-Este é um projeto de alarme de presença desenvolvido como parte da Prova de Aptidão Profissional (PAP).
+## 🔧 Ferramentas Utilizadas  
 
-## 📌 Funcionalidades
-- Detecta movimento com sensor PIR.
-- Emite alerta sonoro com um buzzer.
-- Permite desativação por senha usando um teclado matricial.
+- 🛠️ **Placa Arduino Uno**  
+- 📡 **Sensor PIR HC-SR501**  
+- 🎛️ **Teclado Matricial 4x4**  
+- 💡 **LED indicador**  
+- 🔊 **Buzzer**  
 
-## 🛠️ Componentes Utilizados
-- 🟢 **LED**
-- 🔲 **Teclado Matricial 4x4**
-- 📡 **Sensor PIR HC-SR501**
-- 🔊 **Buzzer**
-- ⚙️ **Arduino Uno**
-- 🔌 **Protoboard e Jumpers**
+## 📜 Sobre o Projeto  
 
-## 🔧 Como Testar o Código
-1. Faça upload do arquivo `alarme.ino` para o Arduino.
-2. Teste cada componente separadamente com os códigos na pasta `tests/`.
-3. Verifique se os LEDs piscam corretamente e se o alarme ativa ao detectar movimento.
+Este projeto consiste num **sistema de alarme de presença baseado em Arduino**.  
 
-## 📸 Imagens do Circuito
-*(Adicione aqui imagens explicativas do projeto)*
+## 📂 Estrutura  
 
----
+- 📂 `fonte/` → Código principal (**alarme.ino**)  
+- 📂 `testes/` → Testes individuais (**LED, PIR, Teclado, Buzzer**)  
+
+## 🏗️ Como Testar  
+
+1️⃣ **Fazer upload do código principal (`fonte/alarme.ino`) para o Arduino**  
+2️⃣ **Executar os testes individuais (`testes/`) antes de montar tudo**  
+3️⃣ **Abrir o Monitor Serial (9600 baud) para visualizar os estados do alarme**  
+
+## 📜 Licença  
+
+Distribuído sob a licença MIT. Veja `LICENSE` para mais detalhes.

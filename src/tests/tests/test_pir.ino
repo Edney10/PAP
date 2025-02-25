@@ -1,17 +1,19 @@
-/*
-*  Teste do Sensor PIR
-*/
-
-#define PIR_SENSOR_PIN 10
+int pirPin = 10;
+int ledPin = 11;
 
 void setup() {
-    Serial.begin(9600);
-    pinMode(PIR_SENSOR_PIN, INPUT);
+  pinMode(pirPin, INPUT);
+  pinMode(ledPin, OUTPUT);
+  Serial.begin(9600);
 }
 
 void loop() {
-    if (digitalRead(PIR_SENSOR_PIN) == HIGH) {
-        Serial.println("Movimento detectado!");
-        delay(1000);
-    }
+  if (digitalRead(pirPin) == HIGH) {
+    Serial.println("Movimento detetado!");
+    digitalWrite(ledPin, HIGH);
+  } else {
+    Serial.println("Sem movimento.");
+    digitalWrite(ledPin, LOW);
+  }
+  delay(500);
 }

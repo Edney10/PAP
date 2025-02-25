@@ -1,7 +1,9 @@
-# Arquivos de compilação
-*.o
+# Ignorar ficheiros do Arduino
 *.hex
-*.bin
+*.elf
+*.eep
+*.bak
 
-# Pastas do Arduino IDE
-.arduino/
+# Ignorar ficheiros do sistema
+.DS_Store
+Thumbs.db

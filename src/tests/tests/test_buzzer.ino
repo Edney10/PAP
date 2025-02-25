@@ -1,16 +1,12 @@
-/*
-*  Teste do Buzzer
-*/
-
-#define BUZZER_PIN 12
+int buzzer = 12;
 
 void setup() {
-    pinMode(BUZZER_PIN, OUTPUT);
+  pinMode(buzzer, OUTPUT);
 }
 
 void loop() {
-    tone(BUZZER_PIN, 1000);  // Emite um som de 1000Hz
-    delay(1000);
-    noTone(BUZZER_PIN);       // Para o som
-    delay(1000);
+  tone(buzzer, 1000);  // Som de 1000 Hz
+  delay(1000);
+  noTone(buzzer);
+  delay(1000);
 }

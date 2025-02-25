@@ -3,7 +3,6 @@
 *  Data...........:  30/01/2024
 *  Observação.....:  
 */
-
 #include <Keypad.h>
 
 // Configuração do teclado 4x4
@@ -25,7 +24,11 @@ int ledPin = 11;
 int buzzer = 12;
 const String senhaCorreta = "4321";
 String senhaDigitada = "";
-bool alarmeAtivo = false;
+bool movimentoDetectado = false;
+
+// Definindo os estados da máquina de estados
+enum Estado { ESPERANDO, ALARME_ATIVO, SENHA_CORRETA, SENHA_INCORRETA };
+Estado estadoAtual = ESPERANDO;
 
 // Configuração inicial
 void setup() {
@@ -48,32 +51,51 @@ void setup() {
 // Loop principal
 void loop() {
   char tecla = keypad.getKey();
+  movimentoDetectado = digitalRead(pirPin) == HIGH;
 
-  // Ativar alarme se detectar movimento
-  if (digitalRead(pirPin) == HIGH) {
-    digitalWrite(ledPin, HIGH);
-    tone(buzzer, 1000);
-    alarmeAtivo = true;
-    Serial.println("Movimento detectado!");
-  }
-
-  // Ler entrada do teclado se o alarme estiver ativo
-  if (alarmeAtivo && tecla) {
-    Serial.print("Tecla pressionada: ");
-    Serial.println(tecla);
-    
-    if (tecla == '#') {
-      if (senhaDigitada == senhaCorreta) {
-        Serial.println("Senha correta! Alarme desativado.");
-        noTone(buzzer);
-        digitalWrite(ledPin, LOW);
-        alarmeAtivo = false;
-      } else {
-        Serial.println("Senha incorreta! Tente novamente.");
+  switch (estadoAtual) {
+    case ESPERANDO:
+      // Aguardar até que movimento seja detectado
+      if (movimentoDetectado) {
+        estadoAtual = ALARME_ATIVO;
+        digitalWrite(ledPin, HIGH);
+        tone(buzzer, 1000);
+        Serial.println("Movimento detectado! Alarme ativado.");
       }
-      senhaDigitada = ""; // Reseta a senha digitada
-    } else {
-      senhaDigitada += tecla;
-    }
+      break;
+
+    case ALARME_ATIVO:
+      // Se o alarme estiver ativo, aguarda o input do teclado
+      if (tecla) {
+        Serial.print("Tecla pressionada: ");
+        Serial.println(tecla);
+
+        if (tecla == '#') {
+          if (senhaDigitada == senhaCorreta) {
+            estadoAtual = SENHA_CORRETA;
+            Serial.println("Senha correta! Alarme desativado.");
+            noTone(buzzer);
+            digitalWrite(ledPin, LOW);
+          } else {
+            estadoAtual = SENHA_INCORRETA;
+            Serial.println("Senha incorreta! Tente novamente.");
+          }
+          senhaDigitada = ""; // Reseta a senha digitada
+        } else {
+          senhaDigitada += tecla;
+        }
+      }
+      break;
+
+    case SENHA_CORRETA:
+      // Alarme desativado, o sistema volta a esperar
+      estadoAtual = ESPERANDO;
+      break;
+
+    case SENHA_INCORRETA:
+      // Senha incorreta, aguarda nova tentativa
+      estadoAtual = ALARME_ATIVO;
+      senhaDigitada = ""; // Limpa a senha para nova tentativa
+      break;
   }
 }
